@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Default: light, public-service style palette (all values are RGB triplets) */
+:root {
+  --bg: 246 248 250;
+  --surface: 255 255 255;
+  --raised: 241 244 247;
+  --line: 214 220 227;
+  --ink: 20 27 35;
+  --muted: 87 98 111;
+  --brand: 184 80 0;
+  --on-brand: 255 255 255;
+  --ok: 18 128 62;
+  --warn: 138 94 0;
+  --crit: 190 36 24;
+  --info: 5 105 135;
+  --shadow-panel: 0 1px 2px rgb(16 24 40 / 0.06), 0 1px 3px rgb(16 24 40 / 0.08);
+}
+:root.dark {
+  --bg: 15 17 20;
+  --surface: 22 25 29;
+  --raised: 31 35 40;
+  --line: 45 51 58;
+  --ink: 232 236 239;
+  --muted: 139 150 160;
+  --brand: 255 138 31;
+  --on-brand: 20 17 13;
+  --ok: 52 199 108;
+  --warn: 245 185 59;
+  --crit: 255 77 64;
+  --info: 56 200 232;
+  --shadow-panel: 0 1px 0 rgb(255 255 255 / 0.03) inset, 0 1px 3px rgb(0 0 0 / 0.25);
+}
+/* High-contrast mode (declared last so it wins over light/dark) */
+:root.hc {
+  --bg: 255 255 255;
+  --surface: 255 255 255;
+  --raised: 238 238 238;
+  --line: 0 0 0;
+  --ink: 0 0 0;
+  --muted: 30 30 30;
+  --brand: 150 55 0;
+  --on-brand: 255 255 255;
+  --ok: 0 96 38;
+  --warn: 105 66 0;
+  --crit: 165 0 0;
+  --info: 0 66 125;
+  --shadow-panel: none;
+}
+.hc a { text-decoration: underline; }
+.hc :focus-visible { outline: 3px solid #000; outline-offset: 2px; }
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    overflow-x: hidden;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  h1, h2, h3, h4 { @apply font-display tracking-tight; }
+  :focus-visible { outline: 2px solid rgb(var(--info)); outline-offset: 2px; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgb(var(--line)); border-radius: 6px; border: 2px solid rgb(var(--bg)); }
+  input, select, textarea { @apply min-w-0; }
+  main:focus { outline: none; }
+}
+
+@layer components {
+  .field {
+    @apply h-10 w-full rounded border border-line bg-surface px-3 text-sm text-ink placeholder:text-muted focus:border-info focus:outline-none;
+  }
+  textarea.field { @apply h-auto py-2; }
+  .label { @apply text-xs font-medium text-muted; }
+  .num { @apply font-mono tabular-nums; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+@media print {
+  header, nav, aside, .no-print { display: none !important; }
+}
